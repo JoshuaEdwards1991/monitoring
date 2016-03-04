@@ -11,8 +11,10 @@ rabbitmqctl set_permissions -p /sensu sensu ".*" ".*" ".*"
 /etc/init.d/redis-server start
 /etc/init.d/sensu-server start
 /etc/init.d/sensu-api start
-/etc/init.d/sensu-client start
+#/etc/init.d/sensu-client start
 /etc/init.d/uchiwa start
+# we must restart postfix to use our settings
+/etc/init.d/postfix restart
 
 tail -f /var/log/uchiwa.log
 fg

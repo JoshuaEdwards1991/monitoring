@@ -3,19 +3,22 @@ grafana:
   ports:
    - "3000:3000"
   volumes:
-   - /home/sgolota/docker/monitoring/grafana/sqllite:/var/lib/grafana/
+   - /srv/graphite/sqlite:/var/lib/grafana
+   - /etc/localtime:/etc/localtime:ro
   links:
    - influx
    - graphite
 sensu:
   image: sensu
   ports:
-   # - "4567:4567"
-   # - "6379:6379"
+   - "4567:4567"
+   - "6379:6379"
    - "5672:5672"
    - "4000:4000"
   volumes:
-   - /home/sgolota/docker/monitoring/sensu/conf:/etc/sensu
+   # - /srv/sensu/config:/etc/sensu
+   - /srv/sensu/config/conf.d:/etc/sensu/conf.d
+   - /srv/sensu/config/handlers:/etc/sensu/handlers
   links:
    - influx
    - graphite
@@ -32,8 +35,8 @@ graphite:
   # image: testgraph
   image: ennexa/graphite
   volumes:
-   - /home/sgolota/docker/graf_influx_comp/graphite/conf:/opt/graphite/conf
-   - /home/sgolota/docker/graf_influx_comp/graphite/storage/whisper:/opt/graphite/storage/whisper
+   - /srv/graphite/conf/:/opt/graphite/conf/ 
+   - /srv/graphite/storage/whisper:/opt/graphite/storage/whisper
   ports:
    - "2003:2003"
    # - "8000:8000"
